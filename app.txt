@@ -1,0 +1,27 @@
+SALIN SEMUA MASUKIN KE ==> app.ts di vscode kalian
+
+import { Client, LocalAuth } from "whatsapp-web.js";
+import qrcode from "qrcode-terminal";
+
+const client = new Client({
+    authStrategy: new LocalAuth(),
+});
+
+client.on("qr", (qr: any) => {
+    console.log("Scan QR berikut:");
+    qrcode.generate(qr, { small: true });
+});
+
+client.on("ready", () => {
+    console.log("Bot berhasil login dan siap!");
+});
+
+client.on("message", async (msg: any) => {
+    console.log("Pesan masuk:", msg.body);
+
+    if (msg.body.toLowerCase() === "ping") {
+        msg.reply("pong!");
+    }
+});
+
+client.initialize();
